@@ -9,7 +9,7 @@ export default function InvitePage({ params }: InvitePageProps) {
     <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
       <div className="mb-4 text-5xl">📩</div>
       <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-        You've been invited to a case on Verdicta
+        You&apos;ve been invited to a case on Verdicta
       </h1>
       <p className="mt-4 text-gray-500">Invitation token</p>
       <code className="mt-2 rounded-lg bg-gray-800 px-4 py-2 text-sm text-cyan-400">

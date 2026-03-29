@@ -5,7 +5,7 @@ export default function Home() {
       <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
         Verdicta
       </h1>
-      <p className="mt-3 text-xl text-gray-400 sm:text-2xl">Who's Right?</p>
+      <p className="mt-3 text-xl text-gray-400 sm:text-2xl">Who&apos;s Right?</p>
       <p className="mt-6 max-w-md text-gray-500">
         Settle your debates with AI. Share your side of the story and let
         Verdicta decide.

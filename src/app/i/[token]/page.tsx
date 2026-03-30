@@ -111,6 +111,21 @@ function InvalidInvite({ reason }: { reason?: string }) {
       title: "Already Accepted",
       desc: "This invitation has already been used.",
     },
+    cancelled: {
+      icon: "\u{1F6AB}",
+      title: "Invitation Cancelled",
+      desc: "This invitation has been cancelled by the sender.",
+    },
+    case_resolved: {
+      icon: "\u2696\uFE0F",
+      title: "Case Already Resolved",
+      desc: "This case has already been decided. The verdict is in.",
+    },
+    already_joined: {
+      icon: "\u{1F465}",
+      title: "Opponent Already Joined",
+      desc: "Someone has already joined this case as the opponent.",
+    },
     error: {
       icon: "\u26A0\uFE0F",
       title: "Something Went Wrong",

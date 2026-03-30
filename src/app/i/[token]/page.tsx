@@ -53,7 +53,7 @@ export default async function InvitePage({ params }: InvitePageProps) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <div className="mb-4 text-5xl">\u{1F4E9}</div>
+      <div className="mb-4 text-5xl">{"\uD83D\uDCE9"}</div>
       <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
         You&apos;ve been invited to a case
       </h1>
@@ -95,30 +95,30 @@ export default async function InvitePage({ params }: InvitePageProps) {
 }
 
 function InvalidInvite({ reason }: { reason?: string }) {
-  const messages: Record<string, { icon: string; title: string; desc: string }> = {
+  const config: Record<string, { icon: string; title: string; desc: string }> = {
     not_found: {
-      icon: "\u{274C}",
+      icon: "\u274C",
       title: "Invalid Invitation",
-      desc: "This invite link doesn&apos;t exist or has been removed.",
+      desc: "This invite link does not exist or has been removed.",
     },
     expired: {
-      icon: "\u{23F0}",
+      icon: "\u23F0",
       title: "Invitation Expired",
       desc: "This invite has expired. Ask the sender for a new one.",
     },
     already_used: {
-      icon: "\u{2705}",
+      icon: "\u2705",
       title: "Already Accepted",
       desc: "This invitation has already been used.",
     },
     error: {
-      icon: "\u{26A0}\u{FE0F}",
+      icon: "\u26A0\uFE0F",
       title: "Something Went Wrong",
-      desc: "We couldn&apos;t verify this invitation. Please try again later.",
+      desc: "We could not verify this invitation. Please try again later.",
     },
   };
 
-  const msg = messages[reason || "error"] || messages.error;
+  const msg = config[reason || "error"] || config.error;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">

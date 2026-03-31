@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { CopyableCode } from "@/components/CopyableCode";
 
 interface InvitePageProps {
   params: { token: string };
@@ -69,11 +70,8 @@ export default async function InvitePage({ params }: InvitePageProps) {
         </div>
       </div>
 
-      <p className="mt-4 text-sm text-gray-600">
-        Invite code:{" "}
-        <code className="rounded bg-gray-800 px-2 py-1 text-xs text-cyan-400">
-          {token}
-        </code>
+      <p className="mt-4 flex items-center gap-2 text-sm text-gray-600">
+        Invite code: <CopyableCode code={token} />
       </p>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">

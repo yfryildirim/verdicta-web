@@ -7,4 +7,14 @@
       "69:1A:9A:04:1F:C0:1E:78:5F:31:34:2D:7C:52:77:A1:1B:C3:71:96:92:E7:6F:C1:E1:A5:CF:8D:1B:A0:ED:56"
     ]
   }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.yfryildirim.whoisright",
+    "sha256_cert_fingerprints": [
+      "69:1A:9A:04:1F:C0:1E:78:5F:31:34:2D:7C:52:77:A1:1B:C3:71:96:92:E7:6F:C1:E1:A5:CF:8D:1B:A0:ED:56"
+    ]
+  }
 }]

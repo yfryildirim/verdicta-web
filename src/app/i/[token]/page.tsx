@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { CopyableCode } from "@/components/CopyableCode";
+import { DeepLinkRedirect } from "@/components/DeepLinkRedirect";
 
 interface InvitePageProps {
   params: { token: string };
@@ -52,8 +53,15 @@ export default async function InvitePage({ params }: InvitePageProps) {
     return <InvalidInvite reason={info.reason} />;
   }
 
+  // Android intent URI — works reliably in WhatsApp/Telegram in-app browsers
+  const intentUri = `intent://invite/${token}#Intent;scheme=verdicta;package=com.yfryildirim.whoisright;end`;
+  const customScheme = `verdicta://invite/${token}`;
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      {/* Auto-redirect: tries to open the app immediately */}
+      <DeepLinkRedirect token={token} />
+
       <div className="mb-4 text-5xl">{"\uD83D\uDCE9"}</div>
       <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
         You&apos;ve been invited to a case
@@ -75,9 +83,29 @@ export default async function InvitePage({ params }: InvitePageProps) {
       </p>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+        {/* Android: intent URI, iOS: custom scheme */}
         <a
-          href={`verdicta://invite/${token}`}
-          className="rounded-xl bg-cyan-500 px-8 py-4 text-lg font-semibold text-gray-950 transition hover:bg-cyan-400"
+          href={intentUri}
+          className="hidden-android rounded-xl bg-cyan-500 px-8 py-4 text-lg font-semibold text-gray-950 transition hover:bg-cyan-400"
+          id="open-app-android"
+          style={{ display: "none" }}
+        >
+          Open in App
+        </a>
+        <a
+          href={customScheme}
+          className="hidden-ios rounded-xl bg-cyan-500 px-8 py-4 text-lg font-semibold text-gray-950 transition hover:bg-cyan-400"
+          id="open-app-ios"
+          style={{ display: "none" }}
+        >
+          Open in App
+        </a>
+        {/* Fallback visible button that uses JS to pick the right URI */}
+        <a
+          href={customScheme}
+          data-intent={intentUri}
+          className="open-app-btn rounded-xl bg-cyan-500 px-8 py-4 text-lg font-semibold text-gray-950 transition hover:bg-cyan-400"
+          onClick={undefined}
         >
           Open in App
         </a>
@@ -88,6 +116,21 @@ export default async function InvitePage({ params }: InvitePageProps) {
           Download App
         </Link>
       </div>
+
+      {/* Client-side script to swap href based on platform */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              var ua = navigator.userAgent || '';
+              var btn = document.querySelector('.open-app-btn');
+              if (btn && /android/i.test(ua)) {
+                btn.href = btn.getAttribute('data-intent') || btn.href;
+              }
+            })();
+          `,
+        }}
+      />
     </main>
   );
 }

@@ -13,7 +13,7 @@ export default function Home() {
 
       <div className="mt-10 flex flex-col gap-4 sm:flex-row">
         <a
-          href="https://apps.apple.com"
+          href="https://apps.apple.com/tr/app/verdicta/id6760935023"
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-xl bg-white px-8 py-4 text-lg font-semibold text-gray-950 transition hover:bg-gray-200"

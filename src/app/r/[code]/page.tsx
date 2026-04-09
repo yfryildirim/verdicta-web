@@ -58,7 +58,7 @@ export default function ReferralPage({
           "https://play.google.com/store/apps/details?id=com.yfryildirim.whoisright";
       } else if (isIOS) {
         window.location.href =
-          "https://apps.apple.com/app/verdicta/id6743440382";
+          "https://apps.apple.com/app/verdicta/id6760935023";
       } else {
         window.location.href = "/download";
       }

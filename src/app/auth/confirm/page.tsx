@@ -10,32 +10,62 @@ export default function AuthConfirmPage() {
   useEffect(() => {
     const handleConfirm = async () => {
       try {
-        // Supabase hash fragment'tan token'ları otomatik alır
+        // Hash fragment'tan token'ları al (implicit flow)
         const hashParams = new URLSearchParams(
           window.location.hash.substring(1)
         );
         const accessToken = hashParams.get("access_token");
+        const refreshToken = hashParams.get("refresh_token");
         const type = hashParams.get("type");
 
-        if (type === "signup" || type === "email" || accessToken) {
-          setStatus("success");
-        } else {
-          // URL parametrelerini kontrol et
-          const urlParams = new URLSearchParams(window.location.search);
-          const error = urlParams.get("error");
-          const errorDescription = urlParams.get("error_description");
+        if (accessToken && refreshToken) {
+          // ✅ Implicit Flow: Token'larla session'ı aktive et
+          // Bu çağrı Supabase backend'inde email_confirmed_at'ı da günceller
+          const { error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
 
           if (error) {
+            console.error("Session set error:", error);
+            setStatus("error");
+          } else {
+            setStatus("success");
+          }
+        } else if (type === "signup" || type === "email") {
+          // PKCE Flow: token_hash ile verifyOtp dene
+          const urlParams = new URLSearchParams(window.location.search);
+          const tokenHash = urlParams.get("token_hash");
+
+          if (tokenHash) {
+            const { error } = await supabase.auth.verifyOtp({
+              token_hash: tokenHash,
+              type: "signup",
+            });
+            if (error) {
+              console.error("OTP verify error:", error);
+              setStatus("error");
+            } else {
+              setStatus("success");
+            }
+          } else {
+            // Token hash yoksa session kontrol et
+            const { data } = await supabase.auth.getSession();
+            setStatus(data.session ? "success" : "error");
+          }
+        } else {
+          // Hata veya session kontrolü
+          const urlParams = new URLSearchParams(window.location.search);
+          const error = urlParams.get("error");
+
+          if (error) {
+            const errorDescription = urlParams.get("error_description");
             console.error("Auth error:", error, errorDescription);
             setStatus("error");
           } else {
-            // Token yoksa ama hata da yoksa, Supabase session kontrolu yap
+            // Son çare: mevcut session kontrolü
             const { data } = await supabase.auth.getSession();
-            if (data.session) {
-              setStatus("success");
-            } else {
-              setStatus("success"); // Confirm linki tiklandi, basarili kabul et
-            }
+            setStatus(data.session ? "success" : "error");
           }
         }
       } catch {
